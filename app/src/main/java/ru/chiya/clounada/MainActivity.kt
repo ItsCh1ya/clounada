@@ -70,8 +70,7 @@ data class TabRowItem(
 @Composable
 fun TabScreen(function: @Composable () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
         function()
     }
