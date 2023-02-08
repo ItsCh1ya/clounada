@@ -15,6 +15,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -86,6 +87,7 @@ fun ShowTabs(tabRowItems: List<TabRowItem>) {
     Column {
         ScrollableTabRow(contentColor = MaterialTheme.colorScheme.secondary,
             edgePadding = 0.dp,
+            backgroundColor = Color.Transparent,
             selectedTabIndex = pagerState.currentPage,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
