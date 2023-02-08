@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Clounada</string>
+    <string name="title_activity_action">ActionActivityTitle</string>
 </resources>
