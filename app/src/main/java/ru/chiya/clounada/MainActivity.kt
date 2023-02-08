@@ -38,8 +38,7 @@ class MainActivity : ComponentActivity() {
                 val surface = MaterialTheme.colorScheme.surface
                 SideEffect {
                     systemUiController.setStatusBarColor(
-                        color = surface,
-                        darkIcons = useDarkIcons,
+                        color = surface
                     )
                     systemUiController.setNavigationBarColor(
                         color = surface,
@@ -51,11 +50,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     val tabRowItems = listOf(
-                        TabRowItem(title = "Цирк", screen = { TabScreen(text = "Цирк уехал (но остался даня)") }),
-                        TabRowItem(title = "Премьер", screen = { TabScreen(text = "Tab 2") }),
-                        TabRowItem(title = "Театр юного зрителя", screen = { TabScreen(text = "Tab 3") }),
-                        TabRowItem(title = "Знаки сезонников", screen = { TabScreen(text = "Tab 4") }),
-                        TabRowItem(title = "Театр драммы", screen = { TabScreen(text = "Tab 5") }))
+                        TabRowItem(title = "Цирк", screen = { TheatreTab().CircusCards() }),
+                        TabRowItem(title = "Премьер", screen = { TheatreTab().CircusCards() }),
+                        TabRowItem(title = "Театр юного зрителя", screen = { TheatreTab().CircusCards() }),
+                        TabRowItem(title = "Знаки сезонников", screen = { TheatreTab().CircusCards() }),
+                        TabRowItem(title = "Театр драммы", screen = { TheatreTab().CircusCards() }))
                     ShowTabs(tabRowItems)
                 }
             }
@@ -69,17 +68,12 @@ data class TabRowItem(
 )
 
 @Composable
-fun TabScreen(
-    text: String,
-) {
+fun TabScreen(function: @Composable () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodySmall,
-        )
+        function()
     }
 }
 
