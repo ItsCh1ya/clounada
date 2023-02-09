@@ -50,9 +50,9 @@ class MainActivity : ComponentActivity() {
                     val json = BruhData(LocalContext.current).getEntireJson()
                     // TODO: вынести в отдельный фрагмент
                     val tabRowItems = listOf(
-                        TabRowItem(title = "Театр юного зрителя", screen = { TheatreTab(json).TYZCards() }),
-                        TabRowItem(title = "Театр драммы", screen = { TheatreTab(json).TDCards() }),
-                        TabRowItem(title = "Цирк", screen = { TheatreTab(json).CircusCards() })
+                        TabRowItem(title = "Театр юного зрителя", screen = { TheatreTab(json).Cards("TYZ") }),
+                        TabRowItem(title = "Театр драммы", screen = { TheatreTab(json).Cards("TD") }),
+                        TabRowItem(title = "Цирк", screen = { TheatreTab(json).CircusBanner() })
                     )
                     ShowTabs(tabRowItems)
                 }
