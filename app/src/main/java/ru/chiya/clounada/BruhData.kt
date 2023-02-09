@@ -1,8 +1,7 @@
 package ru.chiya.clounada
 
 import android.content.Context
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -28,5 +27,8 @@ class BruhData(ctx: Context) {
     private val obj = Json.parseToJsonElement(fileContent.toString())
     fun getEntireJson(): JsonElement? {
         return obj
+    }
+    fun getActionByIndex(theatreName: String, index: Int): JsonElement {
+        return obj.jsonObject[theatreName]!!.jsonObject["actions"]!!.jsonArray[index]
     }
 }
