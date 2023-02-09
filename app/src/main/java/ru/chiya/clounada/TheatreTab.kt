@@ -40,7 +40,7 @@ class TheatreTab(private val dataJson: JsonElement?) {
             LazyVerticalGrid(columns = GridCells.Adaptive(150.dp),
                 content = {
                     val actions = dataJson!!.jsonObject[theatreName]!!.jsonObject["actions"] // List of all actions of theatre
-                    val actionsSize = actions!!.jsonArray.size // Lenght of list
+                    val actionsSize = actions!!.jsonArray.size // Length of list
 
                     items(actionsSize) { index ->
                         val action = actions.jsonArray[index]
@@ -68,7 +68,7 @@ class TheatreTab(private val dataJson: JsonElement?) {
     private fun CardContent(action: JsonElement, context: Context) {
         Column() {
             val title = action.jsonObject["title"]!!.jsonPrimitive.content // bruh
-            val price = action.jsonObject["price"]!!.jsonPrimitive.content
+            val price = action.jsonObject["price"]!!.jsonPrimitive.content // bruh №2
             val resourceName = action.jsonObject["preview"]!!.jsonPrimitive.content
             val drawableResourceId: Int = context.resources.getIdentifier(
                 resourceName,
@@ -109,16 +109,22 @@ class TheatreTab(private val dataJson: JsonElement?) {
     @Composable
     fun CircusBanner() {
         TabScreen {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
                 Text(
                     text = "Цирк уехал.\nЗато остался даня!",
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.displaySmall,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                    modifier = Modifier.padding(top = 16.dp, bottom = 32.dp)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.danya_image),
-                    contentDescription = "даня"
+                    contentDescription = "даня",
+                    modifier = Modifier.clip(
+                        RoundedCornerShape(16.dp)
+                    )
                 )
             }
         }
