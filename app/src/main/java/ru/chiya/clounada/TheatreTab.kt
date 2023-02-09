@@ -108,17 +108,19 @@ class TheatreTab(private val dataJson: JsonElement?) {
 
     @Composable
     fun CircusBanner() {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Цирк уехал.\nЗато остался даня!",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.displaySmall,
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.danya_image),
-                contentDescription = "даня"
-            )
+        TabScreen {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "Цирк уехал.\nЗато остался даня!",
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.displaySmall,
+                    modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.danya_image),
+                    contentDescription = "даня"
+                )
+            }
         }
     }
 }
