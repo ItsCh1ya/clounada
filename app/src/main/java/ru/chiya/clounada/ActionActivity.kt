@@ -9,6 +9,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -56,8 +59,8 @@ class ActionActivity : ComponentActivity() {
                 ) {
 
                     val bundle = intent.extras
-                    var s:String? = null
-                    var n:Int? = null
+                    var s: String? = null
+                    var n: Int? = null
                     s = bundle!!.getString("theatreName", "")
                     n = bundle!!.getInt("actionIndex")
 
@@ -74,11 +77,10 @@ class ActionActivity : ComponentActivity() {
 }
 
 
-
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ActInfo(action: JsonElement, context: Context) {
-    Column() {
+    Column(Modifier.verticalScroll(rememberScrollState())) {
         val title = action.jsonObject["title"]!!.jsonPrimitive.content // bruh
         val price = action.jsonObject["price"]!!.jsonPrimitive.content // bruh №2
         val description = action.jsonObject["description"]!!.jsonPrimitive.content
@@ -88,6 +90,7 @@ fun ActInfo(action: JsonElement, context: Context) {
             resourceName,
             "drawable",
             context.packageName
+
         )
         Image(
             painter = painterResource(id = drawableResourceId),
@@ -97,30 +100,27 @@ fun ActInfo(action: JsonElement, context: Context) {
                 .height(300.dp)
 
         )
-            Text(
-                text = title,
-                fontSize=30.sp
-            )
-            Text(
-                text = description,
-                fontSize=22.sp,
-                color = Color.Black
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge
 
-            )
-            Text(
-                text = date,
-                modifier = Modifier.padding(15.dp),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = price + "₽",
-                modifier = Modifier.padding(8.dp),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+        )
+        Text(
+            text = description + "\n" + date + "\n" + price + "₽",
+            fontSize = 22.sp,
+            color = Color.Black,
+            modifier = Modifier
+                .padding(10.dp)
+
+
+        )
+
+        Button(onClick = { /*TODO*/ }) {
+            Text("Купить", fontSize = 25.sp)
         }
+
     }
+}
 
 
 
