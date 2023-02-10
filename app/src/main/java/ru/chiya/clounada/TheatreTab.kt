@@ -48,12 +48,10 @@ class TheatreTab(private val dataJson: JsonElement?) {
                             modifier = Modifier.padding(8.dp),
                             backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
                             onClick = {
-                                val navigate = Intent(context, ActionActivity::class.java)
-                                val opts = Bundle()
-                                opts.putString("theatreName", theatreName)
-                                opts.putInt("actionIndex", index)
-                                navigate.putExtras(opts)
-                                startActivity(context, navigate, opts)
+                                val intent = Intent(context, ActionActivity::class.java)
+                                intent.putExtra("theatreName", theatreName)
+                                intent.putExtra("actionIndex", index)
+                                context.startActivity(intent)
                             },
                             content = {
                                 CardContent(action, context)
