@@ -56,7 +56,7 @@ class ActionActivity : ComponentActivity() {
 
                     val context = LocalContext.current
                     val json = BruhData(LocalContext.current).getActionByIndex(s, n)
-                    ActInfo(json, context)
+                    ActInfo(json, context, s, n)
 
 
                 }
@@ -68,7 +68,7 @@ class ActionActivity : ComponentActivity() {
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ActInfo(action: JsonElement, context: Context) {
+fun ActInfo(action: JsonElement, context: Context, theatreName: String, actionIndex: Int) {
     val title = action.jsonObject["title"]!!.jsonPrimitive.content // bruh
     val price = action.jsonObject["price"]!!.jsonPrimitive.content // bruh №2
     val description = action.jsonObject["description"]!!.jsonPrimitive.content
@@ -122,7 +122,12 @@ fun ActInfo(action: JsonElement, context: Context) {
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 16.dp)
             )
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                val intent = Intent(context, PaymentActivity::class.java)
+                intent.putExtra("theatreName", theatreName)
+                intent.putExtra("actionIndex", actionIndex)
+                context.startActivity(intent)
+            }) {
                 Text(
                     "Купить",
                     style = MaterialTheme.typography.headlineSmall,
