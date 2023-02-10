@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -14,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.ModalDrawer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberModalBottomSheetState
@@ -31,9 +29,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.simonsickle.compose.barcodes.Barcode
 import com.simonsickle.compose.barcodes.BarcodeType
-import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import ru.chiya.clounada.ui.theme.ClounadaTheme
@@ -56,7 +52,7 @@ class PaymentActivity : ComponentActivity() {
                     val action = theatreName?.let { bruhData.getActionByIndex(it, index) }
 
                     val theatre = bruhData.getEntireJson()!!.jsonObject[theatreName]
-                    SeatChoose(theatre as JsonObject, bruhData, index, action as JsonObject)
+                    SeatChoose(theatre as JsonObject, bruhData, index, action as JsonObject, theatreName)
                 }
             }
         }
@@ -67,9 +63,9 @@ class PaymentActivity : ComponentActivity() {
     ExperimentalMaterialApi::class
 )
 @Composable
-fun SeatChoose(theatre: JsonObject, db: BruhData, index: Int, action: JsonObject) {
+fun SeatChoose(theatre: JsonObject, db: BruhData, index: Int, action: JsonObject, theatreName: String) {
     val context = LocalContext.current
-    val theatreName = db.getValue(theatre, "name")
+    val theatreNameB = db.getValue(theatre, "name")
     val address = db.getValue(theatre, "address")
     val row = remember { mutableStateOf("") }
     val seat = remember { mutableStateOf("") }
