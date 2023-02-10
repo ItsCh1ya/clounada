@@ -2,13 +2,13 @@ package ru.chiya.clounada
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -21,8 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.serialization.json.JsonElement
@@ -69,8 +70,8 @@ class ActionActivity : ComponentActivity() {
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ActInfo(action: JsonElement, context: Context, theatreName: String, actionIndex: Int) {
-    val title = action.jsonObject["title"]!!.jsonPrimitive.content // bruh
-    val price = action.jsonObject["price"]!!.jsonPrimitive.content // bruh №2
+    val title = action.jsonObject["title"]!!.jsonPrimitive.content
+    val price = action.jsonObject["price"]!!.jsonPrimitive.content
     val description = action.jsonObject["description"]!!.jsonPrimitive.content
     val date = action.jsonObject["date"]!!.jsonPrimitive.content
     val resourceName = action.jsonObject["preview"]!!.jsonPrimitive.content
@@ -122,10 +123,8 @@ fun ActInfo(action: JsonElement, context: Context, theatreName: String, actionIn
                 modifier = Modifier.padding(top = 16.dp)
             )
             Button(onClick = {
-                val intent = Intent(context, PaymentActivity::class.java)
-                intent.putExtra("theatreName", theatreName)
-                intent.putExtra("actionIndex", actionIndex)
-                context.startActivity(intent)
+                getUri(action, context)
+
             }) {
                 Text(
                     "Купить",
@@ -135,6 +134,13 @@ fun ActInfo(action: JsonElement, context: Context, theatreName: String, actionIn
             }
         }
     }
+}
+fun getUri(action: JsonElement, context: Context) {
+    val uri = action.jsonObject["url"]!!.jsonPrimitive.content
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = android.net.Uri.parse(uri)
+    context.startActivity(intent)
+
 }
 
 

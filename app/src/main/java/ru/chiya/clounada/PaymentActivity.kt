@@ -2,8 +2,8 @@ package ru.chiya.clounada
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -13,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.ModalDrawer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberModalBottomSheetState
@@ -28,9 +27,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import ru.chiya.clounada.ui.theme.ClounadaTheme
 
 class PaymentActivity : ComponentActivity() {
@@ -82,7 +82,8 @@ fun SeatChoose(theatre: JsonObject, db: BruhData, index: Int) {
             PaymentTextFields(row, seat)
             Button(onClick = {
                 // TODO: ОПЛАТА И ГЕНЕРАЦИЯ QR
-                Toast.makeText(context, "nam pizda", Toast.LENGTH_SHORT).show()
+
+
             }) {
                 Text(text = "Забронировать")
             }
