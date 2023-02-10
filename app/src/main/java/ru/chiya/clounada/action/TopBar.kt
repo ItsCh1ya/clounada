@@ -44,7 +44,7 @@ fun TobAppBatTitle(
         },
         actions = {
             IconButton(onClick = {
-                val intent = Intent(context, ActionActivity::class.java)
+                val intent = Intent(context, MainActivity::class.java)
                 context.startActivity(intent)
             }) {
                 Icon(Icons.Filled.Home, "homeIcon")

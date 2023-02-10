@@ -41,16 +41,14 @@ class ActionActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-
                     val bundle = intent.extras
                     val theatreName = bundle!!.getString("theatreName", "")
                     val actionIndex = bundle.getInt("actionIndex")
 
-
                     val context = LocalContext.current
-                    val json = BruhData(LocalContext.current).getActionByIndex(theatreName, actionIndex)
+                    val json =
+                        BruhData(LocalContext.current).getActionByIndex(theatreName, actionIndex)
                     ActInfo(json, context, theatreName, actionIndex)
-
 
                 }
             }

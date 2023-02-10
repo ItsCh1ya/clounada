@@ -43,12 +43,13 @@ class PaymentActivity : ComponentActivity() {
                     val action = theatreName?.let { bruhData.getActionByIndex(it, index) }
 
                     val theatre = bruhData.getEntireJson().jsonObject[theatreName]
+                    val theatreTitle = bruhData.getValue(theatre as JsonObject, "name")
                     SeatChoose(
-                        theatre as JsonObject,
+                        theatre,
                         bruhData,
                         index,
                         action as JsonObject,
-                        theatreName
+                        theatreTitle
                     )
                 }
             }

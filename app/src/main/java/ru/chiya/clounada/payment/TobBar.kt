@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import ru.chiya.clounada.action.ActionActivity
+import ru.chiya.clounada.main.MainActivity
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +38,7 @@ fun PaymentTopAppBar(
         },
         actions = {
             IconButton(onClick = {
-                val intent = Intent(context, ActionActivity::class.java)
+                val intent = Intent(context, MainActivity::class.java)
                 context.startActivity(intent)
             }) {
                 Icon(Icons.Filled.Home, "homeIcon")
