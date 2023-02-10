@@ -29,15 +29,13 @@ import ru.chiya.clounada.R
 import ru.chiya.clounada.action.ActionActivity
 
 class TheatreTab(private val dataJson: JsonElement?) {
-    private val imageShape = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)
-
     @SuppressLint("DiscouragedApi")
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun Cards(theatreName: String) {
         TabScreen {
             val context = LocalContext.current
-            LazyVerticalGrid(columns = GridCells.Adaptive(150.dp),
+            LazyVerticalGrid(columns = GridCells.Fixed(2),
                 content = {
                     val actions = dataJson!!.jsonObject[theatreName]!!.jsonObject["actions"] // List of all actions of theatre
                     val actionsSize = actions!!.jsonArray.size // Length of list
@@ -45,7 +43,7 @@ class TheatreTab(private val dataJson: JsonElement?) {
                     items(actionsSize) { index ->
                         val action = actions.jsonArray[index]
                         Card(
-                            modifier = Modifier.padding(8.dp),
+                            modifier = Modifier.padding(8.dp).clip(MaterialTheme.shapes.medium),
                             backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
                             onClick = {
                                 val intent = Intent(context, ActionActivity::class.java)
@@ -79,7 +77,7 @@ class TheatreTab(private val dataJson: JsonElement?) {
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .clip(imageShape)
+                    .clip(MaterialTheme.shapes.medium)
                     .height(80.dp)
                     .fillMaxWidth()
             )
