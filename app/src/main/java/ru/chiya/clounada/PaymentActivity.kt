@@ -3,6 +3,7 @@ package ru.chiya.clounada
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,13 +29,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.simonsickle.compose.barcodes.Barcode
+import com.simonsickle.compose.barcodes.BarcodeType
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import ru.chiya.clounada.ui.theme.ClounadaTheme
 
 class PaymentActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         super.onCreate(savedInstanceState)
         setContent {
             val context = LocalContext.current
@@ -50,7 +56,7 @@ class PaymentActivity : ComponentActivity() {
                     val action = theatreName?.let { bruhData.getActionByIndex(it, index) }
 
                     val theatre = bruhData.getEntireJson()!!.jsonObject[theatreName]
-                    SeatChoose(theatre as JsonObject, bruhData, index)
+                    SeatChoose(theatre as JsonObject, bruhData, index, action as JsonObject)
                 }
             }
         }
@@ -61,13 +67,13 @@ class PaymentActivity : ComponentActivity() {
     ExperimentalMaterialApi::class
 )
 @Composable
-fun SeatChoose(theatre: JsonObject, db: BruhData, index: Int) {
+fun SeatChoose(theatre: JsonObject, db: BruhData, index: Int, action: JsonObject) {
     val context = LocalContext.current
     val theatreName = db.getValue(theatre, "name")
     val address = db.getValue(theatre, "address")
-    val showSheet = { mutableStateOf(false) }
     val row = remember { mutableStateOf("") }
     val seat = remember { mutableStateOf("") }
+    val openDialog = remember { mutableStateOf(false) }
 
     Column{
         PaymentTopAppBar(theatreName, address, context, index)
@@ -81,13 +87,61 @@ fun SeatChoose(theatre: JsonObject, db: BruhData, index: Int) {
             AuditoriumIage(db, theatre)
             PaymentTextFields(row, seat)
             Button(onClick = {
-                // TODO: ОПЛАТА И ГЕНЕРАЦИЯ QR
-                Toast.makeText(context, "nam pizda", Toast.LENGTH_SHORT).show()
+                openDialog.value = true
             }) {
                 Text(text = "Забронировать")
             }
+            DrawModal(openDialog, action, row, seat, theatre)
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DrawModal(openDialog: MutableState<Boolean>, action: JsonObject, row: MutableState<String>, seat: MutableState<String>, theatre: JsonObject){
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                // Dismiss the dialog when the user clicks outside the dialog or on the back
+                // button. If you want to disable that functionality, simply use an empty
+                // onDismissRequest.
+                openDialog.value = false
+            }
+        ) {
+            Surface(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .wrapContentHeight(),
+                shape = MaterialTheme.shapes.large
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = action.jsonObject["title"]!!.jsonPrimitive.content, style = MaterialTheme.typography.headlineMedium)
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(text = "Ряд: ${row.value}")
+                        Text(text = "Место: ${seat.value}")
+                    }
+                    Barcode(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(250.dp)
+                            .height(250.dp)
+                            .clip(MaterialTheme.shapes.medium),
+                        resolutionFactor = 10, // Optionally, increase the resolution of the generated image
+                        type = BarcodeType.QR_CODE, // pick the type of barcode you want to render
+                        value = "http://example.com/api/brone/${row.value}:${seat.value}" // The textual representation of this code
+                    )
+                    Text(modifier = Modifier.padding(top = 16.dp), text = theatre["address"]!!.jsonPrimitive.content)
+                    Text(text = action["date"]!!.jsonPrimitive.content)
+                }
+            }
+        }
+    }
+
 }
 
 @Composable
@@ -125,7 +179,8 @@ private fun PaymentSeatsTextField(row: MutableState<String>, name: String) {
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         onValueChange = { row.value = it },
-        modifier = Modifier.width(100.dp)
+        modifier = Modifier
+            .width(100.dp)
     )
 }
 

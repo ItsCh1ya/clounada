@@ -2,9 +2,8 @@ package ru.chiya.clounada
 
 import android.content.Context
 import kotlinx.serialization.json.*
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
+
 
 fun readRawTextFile(ctx: Context, resId: Int): String? {
     val inputStream: InputStream = ctx.getResources().openRawResource(resId)
