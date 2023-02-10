@@ -15,6 +15,7 @@ import ru.chiya.clounada.main.MainActivity
 @OptIn(ExperimentalMaterial3Api::class)
 fun PaymentTopAppBar(
     theatreName: String,
+    theatreTitle: String,
     address: String,
     context: Context,
     index: Int
@@ -22,7 +23,7 @@ fun PaymentTopAppBar(
     TopAppBar(
         title = {
             Column {
-                Text(text = theatreName, style = MaterialTheme.typography.labelLarge)
+                Text(text = theatreTitle, style = MaterialTheme.typography.labelLarge)
                 Text(text = address, style = MaterialTheme.typography.bodySmall)
             }
         },
