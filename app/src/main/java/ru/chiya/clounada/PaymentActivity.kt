@@ -82,7 +82,7 @@ fun SeatChoose(theatre: JsonObject, db: BruhData, index: Int) {
             PaymentTextFields(row, seat)
             Button(onClick = {
                 // TODO: ОПЛАТА И ГЕНЕРАЦИЯ QR
-                Toast.makeText(context, "pizda", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "nam pizda", Toast.LENGTH_SHORT).show()
             }) {
                 Text(text = "Забронировать")
             }
