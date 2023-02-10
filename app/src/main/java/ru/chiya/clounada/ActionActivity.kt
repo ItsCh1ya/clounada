@@ -7,39 +7,28 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.key
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextDirection.Companion.Content
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import ru.chiya.clounada.ui.theme.ClounadaTheme
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import java.util.ResourceBundle.getBundle
+import ru.chiya.clounada.ui.theme.ClounadaTheme
 
 class ActionActivity : ComponentActivity() {
 
@@ -80,45 +69,67 @@ class ActionActivity : ComponentActivity() {
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ActInfo(action: JsonElement, context: Context) {
-    Column(Modifier.verticalScroll(rememberScrollState())) {
-        val title = action.jsonObject["title"]!!.jsonPrimitive.content // bruh
-        val price = action.jsonObject["price"]!!.jsonPrimitive.content // bruh №2
-        val description = action.jsonObject["description"]!!.jsonPrimitive.content
-        val date = action.jsonObject["date"]!!.jsonPrimitive.content
-        val resourceName = action.jsonObject["preview"]!!.jsonPrimitive.content
-        val drawableResourceId: Int = context.resources.getIdentifier(
-            resourceName,
-            "drawable",
-            context.packageName
+    val title = action.jsonObject["title"]!!.jsonPrimitive.content // bruh
+    val price = action.jsonObject["price"]!!.jsonPrimitive.content // bruh №2
+    val description = action.jsonObject["description"]!!.jsonPrimitive.content
+    val date = action.jsonObject["date"]!!.jsonPrimitive.content
+    val resourceName = action.jsonObject["preview"]!!.jsonPrimitive.content
+    val drawableResourceId: Int = context.resources.getIdentifier(
+        resourceName,
+        "drawable",
+        context.packageName
 
+    )
+    Column() {
+        TopAppBar(
+            title = {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Column {
+                        Text(text = title, style = MaterialTheme.typography.labelLarge)
+                        Text(text = date, style = MaterialTheme.typography.bodySmall)
+                    }
+                    Text(modifier = Modifier.padding(end = 8.dp), text = price + "₽")
+                }
+            },
+            navigationIcon = {
+                IconButton(onClick = {
+                    val intent = Intent(context, MainActivity::class.java)
+                    context.startActivity(intent)
+                }) {
+                    Icon(Icons.Filled.ArrowBack, "backIcon")
+                }
+            }
         )
-        Image(
-            painter = painterResource(id = drawableResourceId),
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .height(300.dp)
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = drawableResourceId),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .aspectRatio(16f / 9f)
+                    .clip(MaterialTheme.shapes.extraLarge)
 
-        )
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleLarge
-
-        )
-        Text(
-            text = description + "\n" + date + "\n" + price + "₽",
-            fontSize = 22.sp,
-            color = Color.Black,
-            modifier = Modifier
-                .padding(10.dp)
-
-
-        )
-
-        Button(onClick = { /*TODO*/ }) {
-            Text("Купить", fontSize = 25.sp)
+            )
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Button(onClick = { /*TODO*/ }) {
+                Text(
+                    "Купить",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                )
+            }
         }
-
     }
 }
 
