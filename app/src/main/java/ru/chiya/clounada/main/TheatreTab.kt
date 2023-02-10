@@ -1,9 +1,8 @@
-package ru.chiya.clounada
+package ru.chiya.clounada.main
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -22,11 +21,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import ru.chiya.clounada.R
+import ru.chiya.clounada.action.ActionActivity
 
 class TheatreTab(private val dataJson: JsonElement?) {
     private val imageShape = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)
@@ -35,7 +35,7 @@ class TheatreTab(private val dataJson: JsonElement?) {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun Cards(theatreName: String) {
-        TabScreen() {
+        TabScreen {
             val context = LocalContext.current
             LazyVerticalGrid(columns = GridCells.Adaptive(150.dp),
                 content = {
@@ -65,7 +65,7 @@ class TheatreTab(private val dataJson: JsonElement?) {
 
     @Composable
     private fun CardContent(action: JsonElement, context: Context) {
-        Column() {
+        Column {
             val title = action.jsonObject["title"]!!.jsonPrimitive.content // bruh
             val price = action.jsonObject["price"]!!.jsonPrimitive.content // bruh №2
             val resourceName = action.jsonObject["preview"]!!.jsonPrimitive.content

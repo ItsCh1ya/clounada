@@ -1,7 +1,8 @@
-package ru.chiya.clounada
+package ru.chiya.clounada.utils
 
 import android.content.Context
 import kotlinx.serialization.json.*
+import ru.chiya.clounada.R
 import java.io.*
 
 
@@ -24,7 +25,7 @@ fun readRawTextFile(ctx: Context, resId: Int): String? {
 open class BruhData(ctx: Context) {
     private val fileContent = readRawTextFile(ctx = ctx, resId = R.raw.preset)
     private val obj = Json.parseToJsonElement(fileContent.toString())
-    fun getEntireJson(): JsonElement? {
+    fun getEntireJson(): JsonElement {
         return obj
     }
     fun getActionByIndex(theatreName: String, index: Int): JsonElement {

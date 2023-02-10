@@ -12,17 +12,17 @@
         android:theme="@style/Theme.Clounada"
         tools:targetApi="31">
         <activity
-            android:name=".PaymentActivity"
+            android:name=".payment.PaymentActivity"
             android:exported="false"
             android:label="@string/title_activity_payment"
             android:theme="@style/Theme.Clounada" />
         <activity
-            android:name=".ActionActivity"
+            android:name=".action.ActionActivity"
             android:exported="false"
             android:label="@string/title_activity_action"
             android:theme="@style/Theme.Clounada" />
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Clounada">
