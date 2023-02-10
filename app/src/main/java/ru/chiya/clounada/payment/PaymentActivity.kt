@@ -49,6 +49,7 @@ class PaymentActivity : ComponentActivity() {
                         bruhData,
                         index,
                         action as JsonObject,
+                        theatreName,
                         theatreTitle
                     )
                 }
@@ -63,7 +64,8 @@ fun SeatChoose(
     db: BruhData,
     index: Int,
     action: JsonObject,
-    theatreName: String
+    theatreName: String,
+    theatreTitle: String
 ) {
     val context = LocalContext.current
     val address = db.getValue(theatre, "address")
@@ -72,7 +74,7 @@ fun SeatChoose(
     val openDialog = remember { mutableStateOf(false) }
 
     Column {
-        PaymentTopAppBar(theatreName, address, context, index)
+        PaymentTopAppBar(theatreName, theatreTitle, address, context, index)
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
