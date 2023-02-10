@@ -31,5 +31,7 @@ open class BruhData(ctx: Context) {
     fun getActionByIndex(theatreName: String, index: Int): JsonElement {
         return obj.jsonObject[theatreName]!!.jsonObject["actions"]!!.jsonArray[index]
     }
-
+    fun getValue(jsonObject: JsonObject, key: String): String {
+        return jsonObject[key]!!.jsonPrimitive.content
+    }
 }

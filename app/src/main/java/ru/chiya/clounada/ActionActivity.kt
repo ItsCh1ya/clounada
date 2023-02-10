@@ -78,7 +78,6 @@ fun ActInfo(action: JsonElement, context: Context, theatreName: String, actionIn
         resourceName,
         "drawable",
         context.packageName
-
     )
     Column() {
         TopAppBar(
