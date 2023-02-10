@@ -1,17 +1,17 @@
 package ru.chiya.clounada.action
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
@@ -22,6 +22,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import ru.chiya.clounada.payment.PaymentActivity
 import ru.chiya.clounada.ui.theme.ClounadaTheme
 import ru.chiya.clounada.utils.BruhData
 
@@ -79,7 +80,21 @@ fun ActInfo(action: JsonElement, context: Context, theatreName: String, actionIn
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ActionContent(drawableResourceId, description, context, theatreName, actionIndex)
+            Column(Modifier.padding(bottom = 16.dp)) {
+                ActionContent(drawableResourceId, description)
+            }
+            Button(onClick = {
+                val intent = Intent(context, PaymentActivity::class.java)
+                intent.putExtra("theatreName", theatreName)
+                intent.putExtra("actionIndex", actionIndex)
+                context.startActivity(intent)
+            }) {
+                Text(
+                    "Купить",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                )
+            }
         }
     }
 }
