@@ -3,7 +3,6 @@ package ru.chiya.clounada
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -48,11 +47,10 @@ class TheatreTab(private val dataJson: JsonElement?) {
                             modifier = Modifier.padding(8.dp),
                             backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
                             onClick = {
-                                val navigate = Intent(context, ActionActivity::class.java)
-                                val opts = Bundle()
-                                opts.putString("theatreName", theatreName)
-                                opts.putInt("actionIndex", index)
-                                startActivity(context, navigate, opts)
+                                val intent = Intent(context, ActionActivity::class.java)
+                                intent.putExtra("theatreName", theatreName)
+                                intent.putExtra("actionIndex", index)
+                                context.startActivity(intent)
                             },
                             content = {
                                 CardContent(action, context)
