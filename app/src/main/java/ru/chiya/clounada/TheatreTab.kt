@@ -52,6 +52,7 @@ class TheatreTab(private val dataJson: JsonElement?) {
                                 val opts = Bundle()
                                 opts.putString("theatreName", theatreName)
                                 opts.putInt("actionIndex", index)
+                                navigate.putExtras(opts)
                                 startActivity(context, navigate, opts)
                             },
                             content = {

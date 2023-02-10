@@ -22,7 +22,7 @@ fun readRawTextFile(ctx: Context, resId: Int): String? {
     }
     return byteArrayOutputStream.toString()
 }
-class BruhData(ctx: Context) {
+open class BruhData(ctx: Context) {
     private val fileContent = readRawTextFile(ctx = ctx, resId = R.raw.preset)
     private val obj = Json.parseToJsonElement(fileContent.toString())
     fun getEntireJson(): JsonElement? {
@@ -31,4 +31,5 @@ class BruhData(ctx: Context) {
     fun getActionByIndex(theatreName: String, index: Int): JsonElement {
         return obj.jsonObject[theatreName]!!.jsonObject["actions"]!!.jsonArray[index]
     }
+
 }

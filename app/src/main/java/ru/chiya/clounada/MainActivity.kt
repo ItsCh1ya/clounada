@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     // TODO: вынести в отдельный фрагмент
                     val tabRowItems = listOf(
                         TabRowItem(title = "Театр юного зрителя", screen = { TheatreTab(json).Cards("TYZ") }),
-                        TabRowItem(title = "Театр драммы", screen = { TheatreTab(json).Cards("TD") }),
+                        TabRowItem(title = "Театр драмы", screen = { TheatreTab(json).Cards("TD") }),
                         TabRowItem(title = "Цирк", screen = { TheatreTab(json).CircusBanner() })
                     )
                     ShowTabs(tabRowItems)
