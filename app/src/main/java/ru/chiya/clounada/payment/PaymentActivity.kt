@@ -61,6 +61,7 @@ fun SeatChoose(
     val row = remember { mutableStateOf("") }
     val seat = remember { mutableStateOf("") }
     val openDialog = remember { mutableStateOf(false) }
+    val openPlaceDialog = remember { mutableStateOf(false) }
 
     Column {
         PaymentTopAppBar(theatreName, theatreTitle, address, context, index)
@@ -72,8 +73,9 @@ fun SeatChoose(
                 .verticalScroll(rememberScrollState(), reverseScrolling = true)
         ) {
             AuditoriumIage(db, theatre)
-            PaymentTextFields(row, seat, openDialog)
+            PaymentTextFields(row, seat, openDialog, openPlaceDialog)
             DrawModal(openDialog, action as JsonObject, row, seat, theatre)
+            DrawPlacesModal(openPlacesDialog = openPlaceDialog, theatreName = theatreName)
         }
     }
 }

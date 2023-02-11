@@ -11,30 +11,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.VerticalPager
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.serialization.json.JsonObject
 import ru.chiya.clounada.utils.BruhData
 
-data class potom(
-    val title: String,
-    val screen: @Composable () -> Unit,
-)
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun PaymentTextFields(
     row: MutableState<String>,
     seat: MutableState<String>,
-    openDialog: MutableState<Boolean>
+    openDialog: MutableState<Boolean>,
+    openPlaceDialog: MutableState<Boolean>
 ) {
     Column(Modifier.padding(bottom = 16.dp)) {
         PaymentSeatsTextField(row, "Ряд")
         PaymentSeatsTextField(seat, "Место")
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
-            FilledTonalButton(onClick = { /*TODO*/ }) {
-                Text(text = "Выбрать залупу")
+        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)) {
+            FilledTonalButton(onClick = {
+                openPlaceDialog.value = true
+            }) {
+                Text(text = "Выбрать место")
             }
             Button(onClick = {
                 openDialog.value = true
