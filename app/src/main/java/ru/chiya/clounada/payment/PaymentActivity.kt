@@ -91,7 +91,7 @@ fun SeatChoose(
                 FakeCardInputFields()
                 PayButton(
                     db.getValue(action as JsonObject, "title"),
-                    openPlaceDialog,
+                    part,
                     row,
                     seat,
                     context,

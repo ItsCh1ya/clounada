@@ -23,7 +23,7 @@ import ru.chiya.clounada.utils.Database
 @Composable
 fun PayButton(
     act: String,
-    openPlaceDialog: MutableState<Boolean>,
+    part: MutableState<String>,
     row: MutableState<String>,
     seat: MutableState<String>,
     context: Context,
@@ -32,9 +32,9 @@ fun PayButton(
     modalSheetState: ModalBottomSheetState
 ) {
     OutlinedButton(modifier = Modifier.padding(8.dp), onClick = {
-        if (act.length > 0 && openPlaceDialog.toString().length > 0 && row.toString().length > 0 && seat.toString().length > 0) {
+        if (act.length > 0 && part.value.length > 0 && row.value.length > 0 && seat.value.length > 0) {
             val booking = Booking(
-                act, openPlaceDialog.toString(), row.value.toInt(), seat.value.toInt()
+                act, part.value, row.value.toInt(), seat.value.toInt()
             )
             val db = Database(context)
             db.insertData(booking)
