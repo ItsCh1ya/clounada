@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRowDefaults
@@ -68,6 +69,7 @@ fun ShowTabs(tabRowItems: List<TabRowItem>) {
             }
         }
         HorizontalPager(
+            modifier = Modifier.padding(top = 8.dp),
             count = tabRowItems.size,
             state = pagerState,
         ) {
