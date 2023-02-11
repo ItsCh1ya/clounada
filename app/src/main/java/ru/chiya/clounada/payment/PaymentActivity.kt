@@ -83,12 +83,7 @@ fun SeatChoose(
                 .verticalScroll(rememberScrollState(), reverseScrolling = true)
         ) {
             AuditoriumIage(db, theatre)
-            PaymentTextFields(row, seat)
-            Button(onClick = {
-                openDialog.value = true
-            }) {
-                Text(text = "Забронировать")
-            }
+            PaymentTextFields(row, seat, openDialog)
             DrawModal(openDialog, action, row, seat, theatre)
         }
     }
