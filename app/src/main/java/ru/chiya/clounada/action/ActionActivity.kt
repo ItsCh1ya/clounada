@@ -19,9 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.*
 import ru.chiya.clounada.payment.PaymentActivity
 import ru.chiya.clounada.ui.theme.ClounadaTheme
 import ru.chiya.clounada.utils.BruhData
@@ -47,8 +45,7 @@ class ActionActivity : ComponentActivity() {
                     val actionIndex = bundle.getInt("actionIndex")
 
                     val context = LocalContext.current
-                    val json =
-                        BruhData(LocalContext.current).getActionByIndex(theatreName, actionIndex)
+                    val json = BruhData(LocalContext.current).getActionByIndex(theatreName, actionIndex)
                     ActInfo(json, context, theatreName, actionIndex)
 
                 }
@@ -98,3 +95,8 @@ fun ActInfo(action: JsonElement, context: Context, theatreName: String, actionIn
         }
     }
 }
+
+
+
+
+
