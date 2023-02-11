@@ -5,6 +5,7 @@ package ru.chiya.clounada.payment
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
@@ -12,7 +13,10 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -58,6 +62,10 @@ fun PayButton(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FakeCardInputFields() {
+    val cardNum = remember { mutableStateOf("") }
+    val cardCVC = remember { mutableStateOf("") }
+    val cardDate = remember { mutableStateOf("") }
+
     Text(text = "—", style = MaterialTheme.typography.headlineLarge)
     Box {
         Card(
@@ -70,8 +78,9 @@ fun FakeCardInputFields() {
                 modifier = Modifier.padding(16.dp)
             ) {
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = cardNum.value,
+                    onValueChange = {cardNum.value = it},
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     label = { Text(text = "Номер карты") },
                     modifier = Modifier.padding(8.dp)
                 )
@@ -80,16 +89,18 @@ fun FakeCardInputFields() {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     TextField(
-                        value = "",
-                        onValueChange = {},
+                        value = cardCVC.value,
+                        onValueChange = {cardCVC.value = it},
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = { Text(text = "CVC") },
                         modifier = Modifier
                             .width(100.dp)
                             .padding(8.dp)
                     )
                     TextField(
-                        value = "",
-                        onValueChange = {},
+                        value = cardDate.value,
+                        onValueChange = {cardDate.value = it},
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = { Text(text = "Дата") },
                         modifier = Modifier
                             .width(150.dp)
