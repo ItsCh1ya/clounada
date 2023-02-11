@@ -69,7 +69,7 @@ private fun ModalContent(
             val encodedBitmapQR = encodeAsBitmap(str = "https://example.com/${row.value}:${seat.value}")!!.asImageBitmap()
             Image(
                 bitmap = encodedBitmapQR,
-                contentDescription = "zalupa",
+                contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.extraLarge)
