@@ -28,7 +28,6 @@ class PaymentActivity : ComponentActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         super.onCreate(savedInstanceState)
         setContent {
-            val context = LocalContext.current
             ClounadaTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -58,8 +57,11 @@ fun SeatChoose(
     val theatreTitle = db.getValue(theatre as JsonObject, "name")
 
     val address = db.getValue(theatre, "address")
+
     val row = remember { mutableStateOf("") }
     val seat = remember { mutableStateOf("") }
+    val part = remember { mutableStateOf("") }
+
     val openDialog = remember { mutableStateOf(false) }
     val openPlaceDialog = remember { mutableStateOf(false) }
 
@@ -74,8 +76,8 @@ fun SeatChoose(
         ) {
             AuditoriumIage(db, theatre)
             PaymentTextFields(theatreTitle, row, seat, openDialog, openPlaceDialog)
-            DrawModal(openDialog, action as JsonObject, row, seat, theatre)
-            DrawPlacesModal(openPlacesDialog = openPlaceDialog, theatreName = theatreName)
+            DrawPlacesModal(openPlacesDialog = openPlaceDialog, theatreName = theatreName, part=part)
+            DrawModal(openDialog, action as JsonObject, row, seat, theatre, part)
         }
     }
 }

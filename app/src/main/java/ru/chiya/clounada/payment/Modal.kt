@@ -22,7 +22,8 @@ fun DrawModal(
     action: JsonObject,
     row: MutableState<String>,
     seat: MutableState<String>,
-    theatre: JsonObject
+    theatre: JsonObject,
+    part: MutableState<String>
 ) {
     if (openDialog.value) {
         AlertDialog(
@@ -39,7 +40,7 @@ fun DrawModal(
                     .wrapContentHeight(),
                 shape = MaterialTheme.shapes.large
             ) {
-                ModalContent(action, row, seat, theatre)
+                ModalContent(action, row, seat, theatre,part)
             }
         }
     }
@@ -51,7 +52,8 @@ private fun ModalContent(
     action: JsonObject,
     row: MutableState<String>,
     seat: MutableState<String>,
-    theatre: JsonObject
+    theatre: JsonObject,
+    part: MutableState<String>
 ) {
 
     Column(modifier = Modifier.padding(16.dp)) {
@@ -59,22 +61,20 @@ private fun ModalContent(
             text = action.jsonObject["title"]!!.jsonPrimitive.content,
             style = MaterialTheme.typography.headlineMedium
         )
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Text(text = "Ряд: ${row.value}")
-            Text(text = "Место: ${seat.value}")
-        }
+        Text(text = "Часть: ${part.value}")
+        Text(text = "Ряд: ${row.value}")
+        Text(text = "Место: ${seat.value}")
+        Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
             val encodedBitmapQR = encodeAsBitmap(str = "https://example.com/${row.value}:${seat.value}")!!.asImageBitmap()
             Image(
                 bitmap = encodedBitmapQR,
                 contentDescription = "zalupa",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.clip(MaterialTheme.shapes.extraLarge).fillMaxWidth().aspectRatio(1f)
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.extraLarge)
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
             )
         }
         Text(

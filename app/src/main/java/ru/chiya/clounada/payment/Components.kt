@@ -29,14 +29,14 @@ fun PaymentTextFields(
     val context = LocalContext.current
     Column(Modifier.padding(bottom = 16.dp)) {
         PaymentSeatsTextField(row, "Ряд")
-        PaymentSeatsTextField(seat, "Место")
+        PaymentSeatsTextField(seat, "Часть")
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)) {
             FilledTonalButton(onClick = {
                 openPlaceDialog.value = true
             }) {
-                Text(text = "Выбрать место")
+                Text(text = "Выбрать часть")
             }
             Button(onClick = {
                 if(act.length > 0 &&
@@ -45,13 +45,13 @@ fun PaymentTextFields(
                     seat.toString().length > 0) {
 
 
-                    var booking = Booking(
+                    val booking = Booking(
                         act,
                         openPlaceDialog.toString(),
                         row.value.toInt(),
                         seat.value.toInt()
                     )
-                    var db = Database(context)
+                    val db = Database(context)
                     db.insertData(booking)
                     openDialog.value = true
                 } else{
