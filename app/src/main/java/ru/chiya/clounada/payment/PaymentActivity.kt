@@ -73,7 +73,7 @@ fun SeatChoose(
                 .verticalScroll(rememberScrollState(), reverseScrolling = true)
         ) {
             AuditoriumIage(db, theatre)
-            PaymentTextFields(row, seat, openDialog, openPlaceDialog)
+            PaymentTextFields(theatreTitle, row, seat, openDialog, openPlaceDialog)
             DrawModal(openDialog, action as JsonObject, row, seat, theatre)
             DrawPlacesModal(openPlacesDialog = openPlaceDialog, theatreName = theatreName)
         }

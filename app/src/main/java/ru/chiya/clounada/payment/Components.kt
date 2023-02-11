@@ -1,5 +1,6 @@
 package ru.chiya.clounada.payment
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,16 +13,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.serialization.json.JsonObject
+import ru.chiya.clounada.utils.Booking
 import ru.chiya.clounada.utils.BruhData
+import ru.chiya.clounada.utils.Database
 
 
 @Composable
 fun PaymentTextFields(
+    act: String,
     row: MutableState<String>,
     seat: MutableState<String>,
     openDialog: MutableState<Boolean>,
     openPlaceDialog: MutableState<Boolean>
 ) {
+    val context = LocalContext.current
     Column(Modifier.padding(bottom = 16.dp)) {
         PaymentSeatsTextField(row, "Ряд")
         PaymentSeatsTextField(seat, "Место")
@@ -34,7 +39,24 @@ fun PaymentTextFields(
                 Text(text = "Выбрать место")
             }
             Button(onClick = {
-                openDialog.value = true
+                if(act.length > 0 &&
+                    openPlaceDialog.toString().length > 0 &&
+                    row.toString().length > 0 &&
+                    seat.toString().length > 0) {
+
+
+                    var booking = Booking(
+                        act,
+                        openPlaceDialog.toString(),
+                        row.value.toInt(),
+                        seat.value.toInt()
+                    )
+                    var db = Database(context)
+                    db.insertData(booking)
+                    openDialog.value = true
+                } else{
+                    Toast.makeText(context, "Проверьте введенные данные", Toast.LENGTH_SHORT).show()
+                }
             }) {
                 Text(text = "Забронировать")
             }
