@@ -33,16 +33,20 @@ fun PayButton(
 ) {
     OutlinedButton(modifier = Modifier.padding(8.dp), onClick = {
         val db = Database(context)
-        val booking = Booking(
-            act, part.value, row.value.toInt(), seat.value.toInt()
-        )
-        val check = db.checkData(booking)
-        if (check) {
+        try {
+            val booking = Booking(
+                act, part.value, row.value.toInt(), seat.value.toInt()
+            )
+            val check = db.checkData(booking)
+            if (check) {
 
-            db.insertData(booking)
-            coroutineScope.launch { modalSheetState.hide() }
-            openDialog.value = true
-        } else {
+                db.insertData(booking)
+                coroutineScope.launch { modalSheetState.hide() }
+                openDialog.value = true
+            } else {
+                Toast.makeText(context, "Место занято", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: java.lang.NumberFormatException){
             Toast.makeText(context, "Проверьте введенные данные", Toast.LENGTH_SHORT).show()
         }
     }) {
