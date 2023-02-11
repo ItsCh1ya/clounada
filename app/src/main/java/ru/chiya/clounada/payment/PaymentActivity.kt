@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,19 +37,7 @@ class PaymentActivity : ComponentActivity() {
                 ) {
                     val index = intent.getIntExtra("actionIndex", 0)
                     val theatreName = intent.getStringExtra("theatreName")
-                    val bruhData = BruhData(context)
-                    val action = theatreName?.let { bruhData.getActionByIndex(it, index) }
-
-                    val theatre = bruhData.getEntireJson().jsonObject[theatreName]
-                    val theatreTitle = bruhData.getValue(theatre as JsonObject, "name")
-                    SeatChoose(
-                        theatre,
-                        bruhData,
-                        index,
-                        action as JsonObject,
-                        theatreName,
-                        theatreTitle
-                    )
+                    SeatChoose(index, theatreName!!)
                 }
             }
         }
@@ -60,14 +46,17 @@ class PaymentActivity : ComponentActivity() {
 
 @Composable
 fun SeatChoose(
-    theatre: JsonObject,
-    db: BruhData,
     index: Int,
-    action: JsonObject,
     theatreName: String,
-    theatreTitle: String
 ) {
     val context = LocalContext.current
+
+    val db = BruhData(context)
+    val action = theatreName?.let { db.getActionByIndex(it, index) }
+
+    val theatre = db.getEntireJson().jsonObject[theatreName]
+    val theatreTitle = db.getValue(theatre as JsonObject, "name")
+
     val address = db.getValue(theatre, "address")
     val row = remember { mutableStateOf("") }
     val seat = remember { mutableStateOf("") }
@@ -84,7 +73,7 @@ fun SeatChoose(
         ) {
             AuditoriumIage(db, theatre)
             PaymentTextFields(row, seat, openDialog)
-            DrawModal(openDialog, action, row, seat, theatre)
+            DrawModal(openDialog, action as JsonObject, row, seat, theatre)
         }
     }
 }
