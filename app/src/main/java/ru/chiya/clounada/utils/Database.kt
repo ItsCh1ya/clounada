@@ -48,4 +48,15 @@ class Database(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
 
         db.close()
     }
+    fun checkData(booking: Booking): Boolean {
+        val db = this.writableDatabase
+        val selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + COL_ACT +" = " + "'" + booking.act + "'" +
+                " AND " + COL_LOCATION + "=" +  "'" + booking.location + "'" +
+                " AND " + COL_ROW +" = " + booking.row + " AND " + COL_SEATS + " = " + booking.seats
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor.getCount() > 0) {
+            return false
+        }
+        return true
+    }
 }

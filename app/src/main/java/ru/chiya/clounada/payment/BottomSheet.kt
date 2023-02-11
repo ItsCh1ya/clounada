@@ -32,11 +32,13 @@ fun PayButton(
     modalSheetState: ModalBottomSheetState
 ) {
     OutlinedButton(modifier = Modifier.padding(8.dp), onClick = {
-        if (act.length > 0 && part.value.length > 0 && row.value.length > 0 && seat.value.length > 0) {
-            val booking = Booking(
-                act, part.value, row.value.toInt(), seat.value.toInt()
-            )
-            val db = Database(context)
+        val db = Database(context)
+        val booking = Booking(
+            act, part.value, row.value.toInt(), seat.value.toInt()
+        )
+        val check = db.checkData(booking)
+        if (check) {
+
             db.insertData(booking)
             coroutineScope.launch { modalSheetState.hide() }
             openDialog.value = true
