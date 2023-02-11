@@ -3,36 +3,56 @@ package ru.chiya.clounada.payment
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 import ru.chiya.clounada.utils.BruhData
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PaymentTextFields(
     row: MutableState<String>,
-    seat: MutableState<String>
+    seat: MutableState<String>,
+    openPlaceDialog: MutableState<Boolean>,
+    coroutineScope: CoroutineScope,
+    modalSheetState: ModalBottomSheetState
 ) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceAround,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
+    Column(Modifier.padding(bottom = 16.dp)) {
         PaymentSeatsTextField(row, "Ряд")
         PaymentSeatsTextField(seat, "Место")
+        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)) {
+            FilledTonalButton(onClick = {
+                openPlaceDialog.value = true
+            }) {
+                Text(text = "Выбрать часть")
+            }
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        if (modalSheetState.isVisible)
+                            modalSheetState.hide()
+                        else
+                            modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
+                    }
+                },
+            ) {
+                Text(text = "Забронировать")
+            }
+        }
     }
 }
 
@@ -46,8 +66,7 @@ fun PaymentSeatsTextField(row: MutableState<String>, name: String) {
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         onValueChange = { row.value = it },
-        modifier = Modifier
-            .width(100.dp)
+        modifier = Modifier.fillMaxWidth()
     )
 }
 
@@ -62,9 +81,7 @@ fun AuditoriumIage(db: BruhData, theatre: JsonObject) {
     Image(
         painter = painterResource(id = drawableResourceId),
         contentDescription = "",
-        contentScale = ContentScale.Crop,
         modifier = Modifier
-            .clip(MaterialTheme.shapes.medium)
             .fillMaxWidth()
     )
 }

@@ -1,21 +1,22 @@
 package ru.chiya.clounada.payment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,7 +31,6 @@ class PaymentActivity : ComponentActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         super.onCreate(savedInstanceState)
         setContent {
-            val context = LocalContext.current
             ClounadaTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -39,57 +39,97 @@ class PaymentActivity : ComponentActivity() {
                 ) {
                     val index = intent.getIntExtra("actionIndex", 0)
                     val theatreName = intent.getStringExtra("theatreName")
-                    val bruhData = BruhData(context)
-                    val action = theatreName?.let { bruhData.getActionByIndex(it, index) }
-
-                    val theatre = bruhData.getEntireJson().jsonObject[theatreName]
-                    val theatreTitle = bruhData.getValue(theatre as JsonObject, "name")
-                    SeatChoose(
-                        theatre,
-                        bruhData,
-                        index,
-                        action as JsonObject,
-                        theatreName,
-                        theatreTitle
-                    )
+                    SeatChoose(index, theatreName!!)
                 }
             }
         }
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SeatChoose(
-    theatre: JsonObject,
-    db: BruhData,
     index: Int,
-    action: JsonObject,
     theatreName: String,
-    theatreTitle: String
 ) {
     val context = LocalContext.current
+
+    val db = BruhData(context)
+    val action = theatreName.let { db.getActionByIndex(it, index) }
+
+    val theatre = db.getEntireJson().jsonObject[theatreName]
+    val theatreTitle = db.getValue(theatre as JsonObject, "name")
+
     val address = db.getValue(theatre, "address")
+
     val row = remember { mutableStateOf("") }
     val seat = remember { mutableStateOf("") }
-    val openDialog = remember { mutableStateOf(false) }
+    val part = remember { mutableStateOf("") }
 
-    Column {
-        PaymentTopAppBar(theatreName, theatreTitle, address, context, index)
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 32.dp)
-                .verticalScroll(rememberScrollState(), reverseScrolling = true)
-        ) {
-            AuditoriumIage(db, theatre)
-            PaymentTextFields(row, seat)
-            Button(onClick = {
-                openDialog.value = true
-            }) {
-                Text(text = "Забронировать")
+    val coroutineScope = rememberCoroutineScope()
+    val modalSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
+        skipHalfExpanded = true,
+    )
+
+    val openDialog = remember { mutableStateOf(false) }
+    val openPlaceDialog = remember { mutableStateOf(false) }
+
+    ModalBottomSheetLayout(
+
+        sheetState = modalSheetState,
+        sheetShape = MaterialTheme.shapes.medium,
+        sheetContent = {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surface)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                FakeCardInputFields()
+                PayButton(
+                    db.getValue(action as JsonObject, "title"),
+                    part,
+                    row,
+                    seat,
+                    context,
+                    openDialog,
+                    coroutineScope,
+                    modalSheetState
+                )
             }
-            DrawModal(openDialog, action, row, seat, theatre)
+        }
+    ) {
+        Scaffold {
+
+            Column {
+                PaymentTopAppBar(theatreName, theatreTitle, address, context, index)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 32.dp)
+                        .verticalScroll(rememberScrollState(), reverseScrolling = true)
+                ) {
+                    AuditoriumIage(db, theatre)
+                    PaymentTextFields(
+                        row,
+                        seat,
+                        openPlaceDialog,
+                        coroutineScope,
+                        modalSheetState
+                    )
+                    DrawPlacesModal(
+                        openPlacesDialog = openPlaceDialog,
+                        theatreName = theatreName,
+                        part = part
+                    )
+                    DrawModal(openDialog, action as JsonObject, row, seat, theatre, part)
+
+                }
+            }
         }
     }
 }

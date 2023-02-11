@@ -3,7 +3,7 @@
     "seats": 370,
     "name": "Театр юнного зрителя",
     "address": "ул. Советская, 32, Тверь, Тверская обл., 170100",
-    "scheme": "tyz_scheme",
+    "scheme": "tyz_scheme_svg",
     "actions": [
       {
         "title": "Поединок",
@@ -51,7 +51,7 @@
     "seats": 679,
     "name": "Театр драммы",
     "address": "Театральный пр., 1, Тверь, Тверская обл., 170100",
-    "scheme": "td_scheme",
+    "scheme": "td_scheme_svg",
     "actions": [
       {
         "title": "Клинический случай",

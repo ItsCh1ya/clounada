@@ -5,7 +5,6 @@ import kotlinx.serialization.json.*
 import ru.chiya.clounada.R
 import java.io.*
 
-
 fun readRawTextFile(ctx: Context, resId: Int): String? {
     val inputStream: InputStream = ctx.getResources().openRawResource(resId)
     val byteArrayOutputStream = ByteArrayOutputStream()
