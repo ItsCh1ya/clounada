@@ -4,12 +4,16 @@ package ru.chiya.clounada.payment
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.chiya.clounada.utils.Booking
@@ -27,19 +31,10 @@ fun PayButton(
     coroutineScope: CoroutineScope,
     modalSheetState: ModalBottomSheetState
 ) {
-    Button(onClick = {
-        if (act.length > 0 &&
-            openPlaceDialog.toString().length > 0 &&
-            row.toString().length > 0 &&
-            seat.toString().length > 0
-        ) {
-
-
+    OutlinedButton(modifier = Modifier.padding(8.dp), onClick = {
+        if (act.length > 0 && openPlaceDialog.toString().length > 0 && row.toString().length > 0 && seat.toString().length > 0) {
             val booking = Booking(
-                act,
-                openPlaceDialog.toString(),
-                row.value.toInt(),
-                seat.value.toInt()
+                act, openPlaceDialog.toString(), row.value.toInt(), seat.value.toInt()
             )
             val db = Database(context)
             db.insertData(booking)
@@ -49,6 +44,53 @@ fun PayButton(
             Toast.makeText(context, "Проверьте введенные данные", Toast.LENGTH_SHORT).show()
         }
     }) {
+        Icon(Icons.Filled.ShoppingCart, "cartIcon")
         Text(text = "Оплатить")
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FakeCardInputFields() {
+    Text(text = "—", style = MaterialTheme.typography.headlineLarge)
+    Box {
+        Card(
+            shape = MaterialTheme.shapes.large,
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            modifier = Modifier
+                .padding(horizontal = 32.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                TextField(
+                    value = "",
+                    onValueChange = {},
+                    label = { Text(text = "Номер карты") },
+                    modifier = Modifier.padding(8.dp)
+                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextField(
+                        value = "",
+                        onValueChange = {},
+                        label = { Text(text = "CVC") },
+                        modifier = Modifier
+                            .width(100.dp)
+                            .padding(8.dp)
+                    )
+                    TextField(
+                        value = "",
+                        onValueChange = {},
+                        label = { Text(text = "Дата") },
+                        modifier = Modifier
+                            .width(150.dp)
+                            .padding(8.dp)
+                    )
+                }
+            }
+        }
     }
 }
