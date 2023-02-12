@@ -45,7 +45,7 @@ fun Tabs(json: JsonElement) {
     val tabRowItems = listOf(
         TabRowItem(title = "Театр юного зрителя", screen = { TheatreTab(json).Cards("TYZ") }),
         TabRowItem(title = "Театр драмы", screen = { TheatreTab(json).Cards("TD") }),
-        TabRowItem(title = "Цирк", screen = { TheatreTab(json).CircusBanner() })
+        TabRowItem(title = "Цирк", screen = { TheatreTab(json).Cards("Circus") })
     )
     ShowTabs(tabRowItems)
 }
