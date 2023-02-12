@@ -88,7 +88,7 @@
   "Circus": {
     "name": "Цирк",
     "address": "Тверская площадь, д. 2а, Тверь, Тверская обл., 170100",
-    "scheme": "td_scheme_svg",
+    "scheme": "circus_scheme_svg",
     "actions": [
       {
         "title": "КороЛЕВство",
