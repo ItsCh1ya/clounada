@@ -28,7 +28,7 @@ import ru.chiya.clounada.utils.BruhData
 
 class PaymentActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         super.onCreate(savedInstanceState)
         setContent {
             ClounadaTheme {

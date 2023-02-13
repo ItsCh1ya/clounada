@@ -32,9 +32,11 @@ fun PaymentTextFields(
     Column(Modifier.padding(bottom = 16.dp)) {
         PaymentSeatsTextField(row, "Ряд")
         PaymentSeatsTextField(seat, "Место")
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+        ) {
             FilledTonalButton(onClick = {
                 openPlaceDialog.value = true
             }) {

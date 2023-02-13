@@ -40,7 +40,7 @@ fun DrawModal(
                     .wrapContentHeight(),
                 shape = MaterialTheme.shapes.large
             ) {
-                ModalContent(action, row, seat, theatre,part)
+                ModalContent(action, row, seat, theatre, part)
             }
         }
     }
@@ -66,7 +66,8 @@ private fun ModalContent(
         Text(text = "Место: ${seat.value}")
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            val encodedBitmapQR = encodeAsBitmap(str = "https://example.com/${row.value}:${seat.value}")!!.asImageBitmap()
+            val encodedBitmapQR =
+                encodeAsBitmap(str = "https://example.com/${row.value}:${seat.value}")!!.asImageBitmap()
             Image(
                 bitmap = encodedBitmapQR,
                 contentDescription = "",

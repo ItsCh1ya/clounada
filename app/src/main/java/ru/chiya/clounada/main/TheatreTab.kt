@@ -37,13 +37,16 @@ class TheatreTab(private val dataJson: JsonElement?) {
             val context = LocalContext.current
             LazyVerticalGrid(columns = GridCells.Fixed(2),
                 content = {
-                    val actions = dataJson!!.jsonObject[theatreName]!!.jsonObject["actions"] // List of all actions of theatre
+                    val actions =
+                        dataJson!!.jsonObject[theatreName]!!.jsonObject["actions"] // List of all actions of theatre
                     val actionsSize = actions!!.jsonArray.size // Length of list
 
                     items(actionsSize) { index ->
                         val action = actions.jsonArray[index]
                         Card(
-                            modifier = Modifier.padding(8.dp).clip(MaterialTheme.shapes.medium),
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .clip(MaterialTheme.shapes.medium),
                             backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
                             onClick = {
                                 val intent = Intent(context, ActionActivity::class.java)
@@ -98,30 +101,6 @@ class TheatreTab(private val dataJson: JsonElement?) {
                     modifier = Modifier.padding(8.dp),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-    }
-
-    @Composable
-    fun CircusBanner() {
-        TabScreen {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "Цирк уехал.\nЗато остался даня!",
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.displaySmall,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 32.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.danya_image),
-                    contentDescription = "даня",
-                    modifier = Modifier.clip(
-                        RoundedCornerShape(16.dp)
-                    )
                 )
             }
         }

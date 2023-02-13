@@ -46,7 +46,7 @@ fun PayButton(
             } else {
                 Toast.makeText(context, "Место занято", Toast.LENGTH_SHORT).show()
             }
-        } catch (e: java.lang.NumberFormatException){
+        } catch (e: java.lang.NumberFormatException) {
             Toast.makeText(context, "Проверьте введенные данные", Toast.LENGTH_SHORT).show()
         }
     }) {

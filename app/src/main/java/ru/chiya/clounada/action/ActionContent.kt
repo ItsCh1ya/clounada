@@ -1,6 +1,5 @@
 package ru.chiya.clounada.action
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
