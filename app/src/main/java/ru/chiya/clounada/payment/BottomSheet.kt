@@ -5,6 +5,7 @@ package ru.chiya.clounada.payment
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -85,6 +87,7 @@ fun FakeCardInputFields() {
             ) {
                 TextField(
                     value = cardNum.value,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     onValueChange = { cardNum.value = it },
                     label = { Text(text = "Номер карты") },
                     modifier = Modifier.padding(8.dp)
@@ -95,6 +98,7 @@ fun FakeCardInputFields() {
                 ) {
                     TextField(
                         value = cardCVC.value,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         onValueChange = { cardCVC.value = it },
                         label = { Text(text = "CVC") },
                         modifier = Modifier
@@ -103,6 +107,7 @@ fun FakeCardInputFields() {
                     )
                     TextField(
                         value = cardDate.value,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         onValueChange = { cardDate.value = it },
                         label = { Text(text = "Дата") },
                         modifier = Modifier
