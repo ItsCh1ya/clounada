@@ -20,7 +20,8 @@ fun encodeAsBitmap(str: String?): Bitmap? {
     val pixels = IntArray(w * h)
     for (y in 0 until h) {
         for (x in 0 until w) {
-            pixels[y * w + x] = if (bitMatrix[x, y]) Color.WHITE else MaterialTheme.colorScheme.surfaceVariant.toArgb()
+            pixels[y * w + x] =
+                if (bitMatrix[x, y]) Color.WHITE else MaterialTheme.colorScheme.surfaceVariant.toArgb()
         }
     }
     val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)

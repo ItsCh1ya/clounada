@@ -40,8 +40,8 @@ fun PlacesModalContent(
     openPlacesDialog: MutableState<Boolean>,
     part: MutableState<String>
 ) {
-    LazyColumn(){
-        items(listPlaces.size){ i ->
+    LazyColumn {
+        items(listPlaces.size) { i ->
             TextButton(onClick = {
                 part.value = listPlaces[i]
                 openPlacesDialog.value = false
