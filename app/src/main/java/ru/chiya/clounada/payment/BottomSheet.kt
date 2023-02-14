@@ -34,19 +34,27 @@ fun PayButton(
     modalSheetState: ModalBottomSheetState
 ) {
     OutlinedButton(modifier = Modifier.padding(8.dp), onClick = {
+        if (part.value == "Выберите часть") {
+            Toast.makeText(context, "Выберите часть зала", Toast.LENGTH_SHORT).show()
+        }
         val db = Database(context)
         try {
-            val booking = Booking(
-                act, part.value, row.value.toInt(), seat.value.toInt()
-            )
-            val check = db.checkData(booking)
-            if (check) {
+            if (part.value == "Выберите часть") {
+                Toast.makeText(context, "Выберите часть зала", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val booking = Booking(
+                    act, part.value, row.value.toInt(), seat.value.toInt()
+                )
+                val check = db.checkData(booking)
+                if (check) {
 
-                db.insertData(booking)
-                coroutineScope.launch { modalSheetState.hide() }
-                openDialog.value = true
-            } else {
-                Toast.makeText(context, "Место занято", Toast.LENGTH_SHORT).show()
+                    db.insertData(booking)
+                    coroutineScope.launch { modalSheetState.hide() }
+                    openDialog.value = true
+                } else {
+                    Toast.makeText(context, "Место занято", Toast.LENGTH_SHORT).show()
+                }
             }
         } catch (e: java.lang.NumberFormatException) {
             Toast.makeText(context, "Проверьте введенные данные", Toast.LENGTH_SHORT).show()

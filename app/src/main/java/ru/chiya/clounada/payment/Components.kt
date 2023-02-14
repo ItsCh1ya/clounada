@@ -25,6 +25,7 @@ import ru.chiya.clounada.utils.BruhData
 fun PaymentTextFields(
     row: MutableState<String>,
     seat: MutableState<String>,
+    part: MutableState<String>,
     openPlaceDialog: MutableState<Boolean>,
     coroutineScope: CoroutineScope,
     modalSheetState: ModalBottomSheetState
@@ -40,7 +41,7 @@ fun PaymentTextFields(
             FilledTonalButton(onClick = {
                 openPlaceDialog.value = true
             }) {
-                Text(text = "Выбрать часть")
+                Text(text = part.value)
             }
             Button(
                 onClick = {

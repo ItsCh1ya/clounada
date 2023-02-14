@@ -65,7 +65,7 @@ fun SeatChoose(
 
     val row = remember { mutableStateOf("") }
     val seat = remember { mutableStateOf("") }
-    val part = remember { mutableStateOf("") }
+    val part = remember { mutableStateOf("Выберите часть") }
 
     val coroutineScope = rememberCoroutineScope()
     val modalSheetState = rememberModalBottomSheetState(
@@ -117,6 +117,7 @@ fun SeatChoose(
                     PaymentTextFields(
                         row,
                         seat,
+                        part,
                         openPlaceDialog,
                         coroutineScope,
                         modalSheetState
