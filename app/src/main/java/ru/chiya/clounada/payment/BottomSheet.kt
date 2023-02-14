@@ -12,6 +12,8 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
@@ -58,7 +60,11 @@ fun PayButton(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FakeCardInputFields() {
-    Text(text = "—", style = MaterialTheme.typography.headlineLarge)
+    val cardNum = remember { mutableStateOf("") }
+    val cardCVC = remember { mutableStateOf("") }
+    val cardDate = remember { mutableStateOf("") }
+
+    Text(text = "—", style = MaterialTheme.typography.headlineLarge) //TODO: replace with icon
     Box {
         Card(
             shape = MaterialTheme.shapes.large,
@@ -70,8 +76,8 @@ fun FakeCardInputFields() {
                 modifier = Modifier.padding(16.dp)
             ) {
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = cardNum.value,
+                    onValueChange = { cardNum.value = it },
                     label = { Text(text = "Номер карты") },
                     modifier = Modifier.padding(8.dp)
                 )
@@ -80,16 +86,16 @@ fun FakeCardInputFields() {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     TextField(
-                        value = "",
-                        onValueChange = {},
+                        value = cardCVC.value,
+                        onValueChange = { cardCVC.value = it },
                         label = { Text(text = "CVC") },
                         modifier = Modifier
                             .width(100.dp)
                             .padding(8.dp)
                     )
                     TextField(
-                        value = "",
-                        onValueChange = {},
+                        value = cardDate.value,
+                        onValueChange = { cardDate.value = it },
                         label = { Text(text = "Дата") },
                         modifier = Modifier
                             .width(150.dp)
